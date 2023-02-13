@@ -1,6 +1,6 @@
-# <img src="public/icons/icon_48.png" width="45" align="left"> Hnkey Chrome Ext
+# Hacker News Keyboard Navigator
 
-Hacker News keyboard shortcuts
+A Chrome extension to add keyboard navigation to [Hacker News](https://news.ycombinator.com/news) comment pages.
 
 ## Features
 
@@ -11,9 +11,17 @@ Hacker News keyboard shortcuts
 
 ## Install
 
-`npm run build`
-
-Load unpacked extension from `build` directory
+1. Download / clone this repo
+1. Build the extension:
+```shell
+cd hnkey-chrome-ext
+npm install
+npm run build
+```
+2. Open **chrome://extensions**
+3. Check the **Developer mode** checkbox
+4. Click on the **Load unpacked extension** button
+5. Select the folder **hnkey-chrome-ext/build**
 
 ## Contribution
 
@@ -22,4 +30,3 @@ Suggestions and pull requests are welcomed!.
 ---
 
 This project was bootstrapped with [Chrome Extension CLI](https://github.com/dutiyesh/chrome-extension-cli)
-
