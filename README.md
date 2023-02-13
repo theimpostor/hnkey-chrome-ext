@@ -1,15 +1,19 @@
 # <img src="public/icons/icon_48.png" width="45" align="left"> Hnkey Chrome Ext
 
-My Chrome Extension
+Hacker News keyboard shortcuts
 
 ## Features
 
-- Feature 1
-- Feature 2
+- `j` - next comment
+- `k` - previous comment
+- `J` - next sibling comment or next comment
+- `K` - previous sibling comment or previous comment
 
 ## Install
 
-[**Chrome** extension]() <!-- TODO: Add chrome extension link inside parenthesis -->
+`npm run build`
+
+Load unpacked extension from `build` directory
 
 ## Contribution
 
