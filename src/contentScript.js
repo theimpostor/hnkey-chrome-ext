@@ -17,27 +17,75 @@ console.log(
   `Page title is: '${pageTitle}' - evaluated by Chrome extension's 'contentScript.js' file`
 );
 
-// Communicate with background file by sending a message
-chrome.runtime.sendMessage(
-  {
-    type: 'GREETINGS',
-    payload: {
-      message: 'Hello, my name is Con. I am from ContentScript.',
-    },
-  },
-  (response) => {
-    console.log(response.message);
-  }
-);
+let lastComment = null;
+let comment = null;
 
-// Listen for message
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'COUNT') {
-    console.log(`Current count is ${request.payload.count}`);
+document.addEventListener('keydown', keydownHandler, false);
+
+const getNavLink = (e, t) =>
+  [...e.querySelectorAll('.navs > a.clicky')]
+    .filter((a) => a.innerText === t)
+    .map((a) => new URL(a.href))
+    .map((u) => u.hash.slice(1))
+    .pop();
+
+function keydownHandler(e) {
+  let nextIdx = -1;
+  switch (e.key) {
+    case 'j':
+      if (comment === null) {
+        comment = document.querySelector('tr.athing.comtr');
+      } else {
+        lastComment = comment;
+        comment = comment.nextElementSibling;
+      }
+      break;
+    case 'k':
+      if (comment === null) {
+        comment = document.querySelector('tr.athing.comtr');
+      } else {
+        lastComment = comment;
+        comment = comment.previousElementSibling;
+      }
+      break;
+    case 'J':
+      if (comment === null) {
+        comment = document.querySelector('tr.athing.comtr');
+      } else {
+        lastComment = comment;
+        let nextId = getNavLink(comment, 'next');
+        if (nextId) {
+          comment = document.getElementById(nextId);
+        } else {
+          comment = comment.nextElementSibling;
+        }
+      }
+      break;
+    case 'K':
+      if (comment === null) {
+        comment = document.querySelector('tr.athing.comtr');
+      } else {
+        lastComment = comment;
+        let nextId = getNavLink(comment, 'prev');
+        if (nextId) {
+          comment = document.getElementById(nextId);
+        } else {
+          comment = comment.previousElementSibling;
+        }
+      }
+      break;
+    default:
+      return;
   }
 
-  // Send an empty response
-  // See https://github.com/mozilla/webextension-polyfill/issues/130#issuecomment-531531890
-  sendResponse({});
-  return true;
-});
+  if (lastComment) {
+    lastComment.querySelector('td.default').style.border = 'initial';
+  }
+
+  if (comment) {
+    comment.querySelector('td.default').style.border = 'thin solid grey';
+    comment.scrollIntoView({
+      behavior: 'smooth',
+    });
+  }
+}
