@@ -12,6 +12,20 @@ const getNavLinkId = (e, t) =>
     .map((u) => u.hash.slice(1))
     .pop();
 
+const nextVisibleSibling = (c) => {
+  do {
+    c = c?.nextElementSibling;
+  } while (c?.classList.contains('noshow'));
+  return c;
+};
+
+const prevVisibleSibling = (c) => {
+  do {
+    c = c?.previousElementSibling;
+  } while (c?.classList.contains('noshow'));
+  return c;
+};
+
 function keydownHandler(e) {
   switch (e.key) {
     case 'j':
@@ -19,13 +33,13 @@ function keydownHandler(e) {
         comment = document.querySelector('tr.athing.comtr');
       } else {
         lastComment = comment;
-        comment = comment.nextElementSibling;
+        comment = nextVisibleSibling(comment);
       }
       break;
     case 'k':
       if (comment !== null) {
         lastComment = comment;
-        comment = comment.previousElementSibling;
+        comment = prevVisibleSibling(comment);
       }
       if (comment === null) {
         document.querySelector('table.fatitem').scrollIntoView({
@@ -42,7 +56,7 @@ function keydownHandler(e) {
         if (nextId) {
           comment = document.getElementById(nextId);
         } else {
-          comment = comment.nextElementSibling;
+          comment = nextVisibleSibling(comment);
         }
       }
       break;
@@ -53,7 +67,7 @@ function keydownHandler(e) {
         if (prevId) {
           comment = document.getElementById(prevId);
         } else {
-          comment = comment.previousElementSibling;
+          comment = prevVisibleSibling(comment);
         }
       }
       if (comment === null) {
