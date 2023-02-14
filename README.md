@@ -6,8 +6,9 @@ A Chrome extension to add keyboard navigation to [Hacker News](https://news.ycom
 
 - `j` - next comment
 - `k` - previous comment
-- `J` - next sibling comment or next comment
-- `K` - previous sibling comment or previous comment
+- `l` - next sibling comment or next comment
+- `h` - previous sibling comment or previous comment
+- `;` - expand / collapse comment
 
 ## Install
 

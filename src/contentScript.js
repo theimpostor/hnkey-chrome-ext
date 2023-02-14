@@ -6,7 +6,7 @@ let comment = null;
 document.addEventListener('keydown', keydownHandler, false);
 
 const getNavLinkId = (e, t) =>
-  [...e.querySelectorAll('.navs > a.clicky')]
+  [...e?.querySelectorAll('.navs > a.clicky')]
     .filter((a) => a.innerText === t)
     .map((a) => new URL(a.href))
     .map((u) => u.hash.slice(1))
@@ -75,6 +75,9 @@ function keydownHandler(e) {
           behavior: 'smooth',
         });
       }
+      break;
+    case ';':
+      comment?.querySelector('a.togg').click();
       break;
     default:
       return;
