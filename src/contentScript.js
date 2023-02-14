@@ -1,28 +1,11 @@
 'use strict';
 
-// Content script file will run in the context of web page.
-// With content script you can manipulate the web pages using
-// Document Object Model (DOM).
-// You can also pass information to the parent extension.
-
-// We execute this script by making an entry in manifest.json file
-// under `content_scripts` property
-
-// For more information on Content Scripts,
-// See https://developer.chrome.com/extensions/content_scripts
-
-// Log `title` of current active web page
-const pageTitle = document.head.getElementsByTagName('title')[0].innerHTML;
-console.log(
-  `Page title is: '${pageTitle}' - evaluated by Chrome extension's 'contentScript.js' file`
-);
-
 let lastComment = null;
 let comment = null;
 
 document.addEventListener('keydown', keydownHandler, false);
 
-const getNavLink = (e, t) =>
+const getNavLinkId = (e, t) =>
   [...e.querySelectorAll('.navs > a.clicky')]
     .filter((a) => a.innerText === t)
     .map((a) => new URL(a.href))
@@ -30,7 +13,6 @@ const getNavLink = (e, t) =>
     .pop();
 
 function keydownHandler(e) {
-  let nextIdx = -1;
   switch (e.key) {
     case 'j':
       if (comment === null) {
@@ -41,19 +23,22 @@ function keydownHandler(e) {
       }
       break;
     case 'k':
-      if (comment === null) {
-        comment = document.querySelector('tr.athing.comtr');
-      } else {
+      if (comment !== null) {
         lastComment = comment;
         comment = comment.previousElementSibling;
       }
+      if (comment === null) {
+        document.querySelector('table.fatitem').scrollIntoView({
+          behavior: 'smooth',
+        });
+      }
       break;
-    case 'J':
+    case 'l':
       if (comment === null) {
         comment = document.querySelector('tr.athing.comtr');
       } else {
         lastComment = comment;
-        let nextId = getNavLink(comment, 'next');
+        let nextId = getNavLinkId(comment, 'next');
         if (nextId) {
           comment = document.getElementById(nextId);
         } else {
@@ -61,17 +46,20 @@ function keydownHandler(e) {
         }
       }
       break;
-    case 'K':
-      if (comment === null) {
-        comment = document.querySelector('tr.athing.comtr');
-      } else {
+    case 'h':
+      if (comment !== null) {
         lastComment = comment;
-        let nextId = getNavLink(comment, 'prev');
-        if (nextId) {
-          comment = document.getElementById(nextId);
+        let prevId = getNavLinkId(comment, 'prev');
+        if (prevId) {
+          comment = document.getElementById(prevId);
         } else {
           comment = comment.previousElementSibling;
         }
+      }
+      if (comment === null) {
+        document.querySelector('table.fatitem').scrollIntoView({
+          behavior: 'smooth',
+        });
       }
       break;
     default:
