@@ -29,7 +29,7 @@ const prevVisibleSibling = (c) => {
 function keydownHandler(e) {
   switch (e.key) {
     case 'j':
-      if (comment === null) {
+      if (comment === null && lastComment === null) {
         comment = document.querySelector('tr.athing.comtr');
       } else {
         lastComment = comment;
@@ -48,7 +48,7 @@ function keydownHandler(e) {
       }
       break;
     case 'l':
-      if (comment === null) {
+      if (comment === null && lastComment === null) {
         comment = document.querySelector('tr.athing.comtr');
       } else {
         lastComment = comment;
